@@ -7,8 +7,14 @@ from sklearn.impute import SimpleImputer
 import chart_studio.plotly as py
 import chart_studio.tools as tls
 import plotly.express as px
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
 
+# Initialize the Dash app
+app = dash.Dash(__name__)
 
+# Set Pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
@@ -57,9 +63,14 @@ scatter_fig = px.scatter(scatter_data, x='Actual', y='Predicted', text='Player',
 scatter_fig.update_traces(textposition='top center', textfont_size=10)
 scatter_fig.update_layout(xaxis_title='Actual', yaxis_title='Predicted')
 
-# Show the scatter plot
-scatter_fig.show()
+# Define the layout of the Dash app
+app.layout = html.Div(children=[
+    html.H1("My Dash App"),
+    dcc.Graph(
+        id='scatter-plot',
+        figure=scatter_fig  # Use the scatter_fig you created in your existing code
+    )
+])
 
-print(f'Mean Squared Error: {mse:.2f}')
-print(f'R-squared (R2) Score: {r2:.2f}')
-
+if __name__ == '__main__':
+    app.run_server(debug=True)
