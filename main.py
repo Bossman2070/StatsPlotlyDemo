@@ -13,6 +13,7 @@ import dash_html_components as html
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
+server = app.server
 
 # Set Pandas options
 pd.set_option('display.max_columns', None)
